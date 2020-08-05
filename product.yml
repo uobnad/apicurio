@@ -35,10 +35,12 @@ paths:
           content:
             application/json: {}
           description: 異常終了
+      summary: 作成する
     delete:
       responses:
         "200":
           description: 削除成功
+      summary: 削除する
 components:
   schemas:
     product:
