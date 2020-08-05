@@ -1,0 +1,55 @@
+---
+openapi: 3.0.2
+info:
+  title: user
+  version: 1.0.0
+paths:
+  /get:
+    summary: ユーザ情報を取得する
+    description: ユーザ情報を取得する
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user_info'
+          description: 正常終了
+      summary: ユーザ情報を取得する
+    parameters:
+    - name: id
+      description: ""
+      schema:
+        type: string
+      in: query
+      required: true
+  /delete:
+    delete:
+      responses:
+        "200":
+          description: 正常終了
+      summary: 削除する
+    parameters:
+    - name: id
+      description: ""
+      schema: {}
+      in: query
+components:
+  schemas:
+    user_info:
+      description: ユーザ情報
+      required:
+      - name
+      - id
+      type: object
+      properties:
+        name:
+          description: ""
+          type: string
+        id:
+          description: ""
+          type: string
+        age:
+          description: ""
