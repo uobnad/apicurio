@@ -1,0 +1,114 @@
+---
+openapi: 3.0.2
+info:
+  title: 商品
+  version: 1.0.0
+paths:
+  /product:
+    get:
+      parameters:
+      - name: id
+        description: ""
+        schema:
+          type: string
+        in: query
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+          description: 正常終了
+      summary: 取得する
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+        required: true
+      responses:
+        "200":
+          description: 正常終了
+        "500":
+          content:
+            application/json: {}
+          description: 異常終了
+    delete:
+      responses:
+        "200":
+          description: 削除成功
+components:
+  schemas:
+    product:
+      description: ""
+      required:
+      - name
+      - price
+      type: object
+      properties:
+        name:
+          description: 名称
+          type: string
+        sales_date:
+          format: date-time
+          description: 発売日
+          type: string
+        price:
+          $ref: '#/components/schemas/price'
+          description: 価格情報
+        variation_products:
+          description: バリエーション商品
+          type: array
+          items:
+            $ref: '#/components/schemas/variation'
+      example:
+        name: some text
+        sales_date: 2018-02-10T09:30Z
+        price:
+          price: 40
+          tax: 48.9
+        variation_products:
+        - product:
+            name: some text
+            sales_date: 2018-02-10T09:30Z
+            price:
+              price: 64
+              tax: 8.09
+            variation_products:
+            - {}
+            - {}
+        - product:
+            name: some text
+            sales_date: 2018-02-10T09:30Z
+            price:
+              price: 20
+              tax: 99.63
+            variation_products:
+            - {}
+            - {}
+    price:
+      description: ""
+      required:
+      - price
+      - tax
+      type: object
+      properties:
+        price:
+          description: 商品価格
+          type: integer
+        tax:
+          format: double
+          description: 税率
+          type: number
+      example:
+        price: 97
+        tax: 0.08
+    variation:
+      description: バリエーション
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/product'
+          description: 商品情報
