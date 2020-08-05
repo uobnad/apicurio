@@ -5,6 +5,7 @@ info:
   version: 1.0.0
 paths:
   /product:
+    summary: 商品情報管理
     get:
       parameters:
       - name: id
@@ -20,7 +21,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/product'
           description: 正常終了
-      summary: 取得する
+      summary: 商品情報を取得する
     post:
       requestBody:
         content:
@@ -33,14 +34,29 @@ paths:
           description: 正常終了
         "500":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: string
           description: 異常終了
-      summary: 作成する
+      summary: 商品情報を作成する
     delete:
       responses:
         "200":
           description: 削除成功
-      summary: 削除する
+      summary: 商品情報を削除する
+  /price:
+    summary: 価格情報
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/price'
+        required: true
+      responses:
+        "200":
+          description: 正常終了
+      summary: 価格情報を更新する
 components:
   schemas:
     product:
@@ -48,6 +64,7 @@ components:
       required:
       - name
       - price
+      - id
       type: object
       properties:
         name:
@@ -65,36 +82,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/variation'
+        id:
+          description: ID
+          type: string
       example:
+        id: "0001"
         name: some text
         sales_date: 2018-02-10T09:30Z
         price:
-          price: 40
-          tax: 48.9
+          price: 18
+          tax: 89.44
         variation_products:
         - product:
             name: some text
             sales_date: 2018-02-10T09:30Z
             price:
-              price: 64
-              tax: 8.09
+              price: 46
+              tax: 57.24
             variation_products:
             - {}
             - {}
+            id: some text
         - product:
             name: some text
             sales_date: 2018-02-10T09:30Z
             price:
-              price: 20
-              tax: 99.63
+              price: 65
+              tax: 6.75
             variation_products:
             - {}
             - {}
+            id: some text
     price:
       description: ""
       required:
       - price
       - tax
+      - id
       type: object
       properties:
         price:
@@ -104,9 +128,13 @@ components:
           format: double
           description: 税率
           type: number
+        id:
+          description: 'ID  '
+          type: string
       example:
-        price: 97
-        tax: 0.08
+        id: "0001"
+        price: 39
+        tax: 54.17
     variation:
       description: バリエーション
       type: object
@@ -114,3 +142,15 @@ components:
         product:
           $ref: '#/components/schemas/product'
           description: 商品情報
+      example:
+        product:
+          name: some text
+          sales_date: 2018-02-10T09:30Z
+          price:
+            id: "0001"
+            price: 35
+            tax: 31.99
+          variation_products:
+          - product: {}
+          - product: {}
+          id: some text
